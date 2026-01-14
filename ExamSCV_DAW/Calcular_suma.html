@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Suma de dos números</title>
+    <title>Calculadora Simple</title>
     <style>
         .container {
             text-align: center;
@@ -10,6 +10,10 @@
         .content {
             display: inline-block;
             text-align: left;
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
         }
         .input-container {
             display: flex;
@@ -23,14 +27,23 @@
         .input-container input[type="text"] {
             width: 150px;
         }
-		
+        .buttons {
+            margin-top: 15px;
+            display: flex;
+            gap: 10px;
+        }
+        #resultado {
+            margin-top: 20px;
+            font-weight: bold;
+            color: #333;
+        }
     </style>
 </head>
 <body>
 
 <div class="container">
     <div class="content">
-        <h2>Suma de dos números</h2>
+        <h2>Operaciones Matemáticas</h2>
 
         <form>
             <div class="input-container">
@@ -41,7 +54,11 @@
                 <label for="num2">Segundo número:</label>
                 <input type="text" id="num2">
             </div>
-            <input type="button" value="Calcular suma"  onclick="calcularSuma()">
+            
+            <div class="buttons">
+                <input type="button" value="Calcular Suma" onclick="operar('suma')">
+                <input type="button" value="Calcular Resta" onclick="operar('resta')">
+            </div>
         </form>
 
         <div id="resultado"></div>
@@ -49,26 +66,33 @@
 </div>
 
 <script>
-function calcularSuma() {
+function operar(tipo) {
     // Obtener los valores de los campos de entrada
     var num1 = parseFloat(document.getElementById("num1").value);
     var num2 = parseFloat(document.getElementById("num2").value);
+    var divResultado = document.getElementById("resultado");
 
-    // Verificar si ambos valores son números
+    // Verificar si ambos valores son números válidos
     if (!isNaN(num1) && !isNaN(num2)) {
-        // Calcular la suma
-        var suma = num1 + num2;
+        var resultado;
+        var operacionTexto;
 
-        // Mostrar el resultado en el elemento con id "resultado"
-        document.getElementById("resultado").innerHTML = "El resultado de la suma es: " + suma;
+        if (tipo === 'suma') {
+            resultado = num1 + num2;
+            operacionTexto = "suma";
+        } else if (tipo === 'resta') {
+            resultado = num1 - num2;
+            operacionTexto = "resta";
+        }
+
+        // Mostrar el resultado
+        divResultado.innerHTML = "El resultado de la " + operacionTexto + " es: " + resultado;
     } else {
         // Mostrar un mensaje de error si los valores no son números
-        document.getElementById("resultado").innerHTML = "Por favor, ingrese dos números válidos.";
+        divResultado.innerHTML = "Por favor, ingrese dos números válidos.";
     }
 }
 </script>
 
 </body>
 </html>
-
-

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Calculadora con Multiplicación</title>
+    <title>Calculadora Completa</title>
     <style>
         .container {
             text-align: center;
@@ -12,62 +12,60 @@
             display: inline-block;
             text-align: left;
             background-color: #f9f9f9;
-            padding: 20px;
-            border-radius: 8px;
+            padding: 25px;
+            border-radius: 12px;
             border: 1px solid #ddd;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
         .input-container {
             display: flex;
             align-items: center;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
         }
         .input-container label {
-            width: 150px;
-            margin-right: 10px;
+            width: 130px;
+            font-weight: bold;
         }
         .input-container input[type="text"] {
             width: 150px;
-            padding: 5px;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
         }
         .buttons {
-            margin-top: 15px;
-            display: flex;
+            margin-top: 20px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
             gap: 10px;
-            justify-content: center;
         }
 
-        /* Estilos base para los botones */
         .btn {
-            padding: 10px 20px;
+            padding: 12px;
             border: none;
-            border-radius: 4px;
+            border-radius: 6px;
             color: white;
             font-weight: bold;
             cursor: pointer;
-            transition: transform 0.1s, opacity 0.2s;
+            transition: all 0.2s;
         }
 
-        .btn:active {
-            transform: scale(0.95);
-        }
+        .btn:active { transform: scale(0.96); }
+        .btn:hover { filter: brightness(1.1); }
 
-        /* Colores específicos */
+        /* Colores de botones */
         .btn-suma { background-color: #28a745; }   /* Verde */
         .btn-resta { background-color: #dc3545; }  /* Rojo */
         .btn-multi { background-color: #007bff; }  /* Azul */
-
-        .btn:hover {
-            opacity: 0.85;
-        }
+        .btn-div { background-color: #6f42c1; }    /* Púrpura */
 
         #resultado {
-            margin-top: 20px;
-            padding: 10px;
+            margin-top: 25px;
+            padding: 15px;
+            font-size: 1.1em;
             font-weight: bold;
             text-align: center;
-            border-top: 1px solid #eee;
-            min-height: 20px;
+            border-top: 2px solid #eee;
+            min-height: 24px;
         }
     </style>
 </head>
@@ -75,22 +73,23 @@
 
 <div class="container">
     <div class="content">
-        <h2>Calculadora Interactiva</h2>
+        <h2 style="text-align: center;">Calculadora Pro</h2>
 
         <form>
             <div class="input-container">
-                <label for="num1">Primer número:</label>
-                <input type="text" id="num1" placeholder="Ej: 8">
+                <label for="num1">Número A:</label>
+                <input type="text" id="num1" placeholder="0">
             </div>
             <div class="input-container">
-                <label for="num2">Segundo número:</label>
-                <input type="text" id="num2" placeholder="Ej: 4">
+                <label for="num2">Número B:</label>
+                <input type="text" id="num2" placeholder="0">
             </div>
             
             <div class="buttons">
-                <input type="button" class="btn btn-suma" value="Sumar" onclick="operar('suma')">
-                <input type="button" class="btn btn-resta" value="Restar" onclick="operar('resta')">
-                <input type="button" class="btn btn-multi" value="Multiplicar" onclick="operar('multi')">
+                <input type="button" class="btn btn-suma" value="Sumar (+)" onclick="operar('suma')">
+                <input type="button" class="btn btn-resta" value="Restar (-)" onclick="operar('resta')">
+                <input type="button" class="btn btn-multi" value="Multiplicar (×)" onclick="operar('multi')">
+                <input type="button" class="btn btn-div" value="Dividir (÷)" onclick="operar('division')">
             </div>
         </form>
 
@@ -100,37 +99,48 @@
 
 <script>
 function operar(tipo) {
-    // Capturamos los valores actuales
-    var num1 = parseFloat(document.getElementById("num1").value);
-    var num2 = parseFloat(document.getElementById("num2").value);
-    var divResultado = document.getElementById("resultado");
+    const n1 = parseFloat(document.getElementById("num1").value);
+    const n2 = parseFloat(document.getElementById("num2").value);
+    const resDiv = document.getElementById("resultado");
 
-    if (!isNaN(num1) && !isNaN(num2)) {
-        var resultado;
-        var operacionTexto;
-
-        // Estructura de control para decidir la operación
-        switch(tipo) {
-            case 'suma':
-                resultado = num1 + num2;
-                operacionTexto = "suma";
-                break;
-            case 'resta':
-                resultado = num1 - num2;
-                operacionTexto = "resta";
-                break;
-            case 'multi':
-                resultado = num1 * num2;
-                operacionTexto = "multiplicación";
-                break;
-        }
-
-        divResultado.innerHTML = "El resultado de la " + operacionTexto + " es: " + resultado;
-        divResultado.style.color = "#333";
-    } else {
-        divResultado.innerHTML = "⚠️ Por favor, introduce números válidos.";
-        divResultado.style.color = "#dc3545";
+    if (isNaN(n1) || isNaN(n2)) {
+        resDiv.innerHTML = "⚠️ Introduce números válidos";
+        resDiv.style.color = "#dc3545";
+        return;
     }
+
+    let resultado;
+    let simbolo;
+
+    switch(tipo) {
+        case 'suma':
+            resultado = n1 + n2;
+            simbolo = "+";
+            break;
+        case 'resta':
+            resultado = n1 - n2;
+            simbolo = "-";
+            break;
+        case 'multi':
+            resultado = n1 * n2;
+            simbolo = "×";
+            break;
+        case 'division':
+            if (n2 === 0) {
+                resDiv.innerHTML = "❌ No se puede dividir por cero";
+                resDiv.style.color = "#dc3545";
+                return;
+            }
+            resultado = n1 / n2;
+            simbolo = "÷";
+            break;
+    }
+
+    // Formateo del resultado para que no tenga demasiados decimales si es necesario
+    const resultadoFormateado = Number.isInteger(resultado) ? resultado : resultado.toFixed(2);
+    
+    resDiv.innerHTML = `${n1} ${simbolo} ${n2} = ${resultadoFormateado}`;
+    resDiv.style.color = "#333";
 }
 </script>
 
